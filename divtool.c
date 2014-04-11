@@ -88,11 +88,11 @@ int main(int argc, char **argv)
       if (done) break;
     }
     fclose(subfp);
-    fprintf(stderr, "INFO: wrote %s (%d bytes)\n", subfname, sum);
+    fprintf(stderr, "INFO: wrote %s (%ld bytes)\n", subfname, sum);
     tsum += sum;
     if (done) break;
   }
-  fprintf(stderr, "INFO: total %d bytes\n", tsum);
+  fprintf(stderr, "INFO: total %ld bytes\n", tsum);
   fclose(fp);
   exit(EXIT_SUCCESS);
 }
