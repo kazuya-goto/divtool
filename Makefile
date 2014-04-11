@@ -21,5 +21,5 @@ $(TARGET): $(OBJS)
 clean:
 	$(RM) $(OBJS) $(TARGET)
 
-test:
+test: all
 	sh test.sh
