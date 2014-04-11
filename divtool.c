@@ -2,19 +2,24 @@
 #include <stdlib.h>
 #include <unistd.h>
 
+#define DEF_CHUNK 1024*1024*256
+
 static char *ProgName;
 
 void usage()
 {
   fprintf(stderr, "Usage: %s [-c chunk] filename\n", ProgName);
-  exit(EXIT_FAILURE);
+  fprintf(stderr, "Options:\n"
+                  "  -c chunk   specify the size of one file (default: %d)\n"
+                  "  -h         show this message\n"
+          , DEF_CHUNK);
 }
 
 #define BUFSIZE 4096
 
 int main(int argc, char **argv)
 {
-  size_t chunk=1024*1024*256;
+  size_t chunk = DEF_CHUNK;
   char buff[BUFSIZE];
   int ch;
   char *fname;
@@ -22,14 +27,17 @@ int main(int argc, char **argv)
 
   ProgName = argv[0];
 
-  while ((ch = getopt(argc, argv, "c:")) != -1) {
+  while ((ch = getopt(argc, argv, "c:h")) != -1) {
     switch (ch) {
     case 'c':
       chunk = atoi(optarg);
       break;
-    case '?':
+    case 'h':
+      usage();
+      exit(EXIT_SUCCESS);
     default:
       usage();
+      exit(EXIT_FAILURE);
     }
   }
   argc -= optind;
@@ -39,6 +47,7 @@ int main(int argc, char **argv)
   if (argc != 1) {
     fprintf(stderr, "ERROR: filename not specified\n");
     usage();
+    exit(EXIT_FAILURE);
   }
   /* fprintf(stderr, "DEBUG: argv[0]=%s\n", argv[0]); */
   fname = argv[0];
